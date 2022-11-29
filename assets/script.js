@@ -2,10 +2,10 @@ var startGameButton = document.getElementById("startButton")
 var countdownEl = document.getElementById("countdown");
 var headerEl = document.querySelector("header");
 var highScore = document.getElementById("highscore");
-var mainEl = document.querySelector("main");
+var divEl = document.querySelector("div");
 var questionTitle = document.getElementById("question")
 var orderedListEl = document.getElementById("list")
-var questions = 5;
+
 //variables that I want to create as a I go: answer list, question,
 
 
@@ -31,10 +31,10 @@ function gameOver() {
     headerEl.appendChild(timesUp);
  }
 
-
+var i=0;
+var questions = 5;
 function quizQuestions() {
-
-    for (i=0; i<questions.length; i++){
+    // for (i=0; i<questions.length; i++){
         //pulls the question promopt based on the index
         var Qs = quizQuestionObject[i].Prompt;
         //Sets the question title to be the prompt
@@ -43,53 +43,65 @@ function quizQuestions() {
         var choice2 = quizQuestionObject[i].Choices[1];
         var choice3 = quizQuestionObject[i].Choices[2];
         var choice4 = quizQuestionObject[i].Choices[3];
-    
-    
-        // questions holders
-        var choice1Element = document.createAttribute("li");
+        orderedListEl.innerHTML = '';
+              
+          
+        //Choice 1 Setup
+        var createListEl1 = document.createElement("li")
         var button1El = document.createElement("button");
-        choice1Element.setAttribute("class", "choiceList")
+        //creating classes for my choice buttons
+        createListEl1.setAttribute("class", "listElement")
         button1El.setAttribute("class", "choiceButton");
+        //adds the text for choice one to the button
         button1El.textContent = choice1;
-        choice1Element.appendChild(button1El);
-        orderedListEl.appendChild(choice1Element);
-        mainEl.appendChild(orderedListEl);
-    
-        var choice2Element = document.createAttribute("li");
+        createListEl1.appendChild(button1El);
+        //appends the button to the list item created above
+        orderedListEl.appendChild(createListEl1);
+        //Adds the list item to the orderlist creaated in the HTML
+        //Adds this to the div element 
+        divEl.appendChild(orderedListEl);
+                
+        //Choice 2 Setup
+        var createListEl2 = document.createElement("li")
         var button2El = document.createElement("button");
-        choice2Element.setAttribute("class", "choiceList")
+        createListEl2.setAttribute("class", "listElement")
         button2El.setAttribute("class", "choiceButton");
         button2El.textContent = choice2;
-        choice2Element.appendChild(button2El);
-        orderedListEl.appendChild(choice2Element);
-        mainEl.appendChild(orderedListEl);
-    
-    
-        var choice3Element = document.createAttribute("li");
+        createListEl2.appendChild(button2El);
+        orderedListEl.appendChild(createListEl2)
+        divEl.appendChild(orderedListEl);
+                
+                
+         //Choice 3 Setup
+        var createListEl3 = document.createElement("li")
         var button3El = document.createElement("button");
-        choice3Element.setAttribute("class", "choiceList")
+        createListEl3.setAttribute("class", "listElement")
         button3El.setAttribute("class", "choiceButton");
         button3El.textContent = choice3;
-        choice3Element.appendChild(button3El);
-        orderedListEl.appendChild(choice3Element);
-        mainEl.appendChild(orderedListEl);
-    
-        var choice4Element = document.createAttribute("li");
+        createListEl3.appendChild(button3El);
+        orderedListEl.appendChild(createListEl3);
+        divEl.appendChild(orderedListEl);
+            
+        //Choice 4 Setup
+        var createListEl4 = document.createElement("li")
         var button4El = document.createElement("button");
-        choice4Element.setAttribute("class", "choiceList")
+        createListEl4.setAttribute("class", "listElement")
         button4El.setAttribute("class", "choiceButton");
         button4El.textContent = choice4;
-        choice4Element.appendChild(button4El);
-        orderedListEl.appendChild(choice4Element);
-        mainEl.appendChild(orderedListEl);
-    
-    
-        //add event listener to allwo click for buttons
-        var clickAnswer = document.querySelectorAll(".answerButton")
-        clickAnswer.addEventListener("click", function(){
-            //if statement to handle answers?
+        createListEl4.appendChild(button4El);
+        createListEl4.appendChild(button4El);
+        orderedListEl.appendChild(createListEl4);
+        divEl.appendChild(orderedListEl);
+                
+                
+         //add event listener to allwo click for buttons
+         var clickAnswer = document.querySelectorAll(".answerButton")
+         clickAnswer.addEventListener("click", function(){
+        //if statement to handle answers?
         })
-    }
+ 
+ 
+    // }
 }
 
 function checkAnswer(){
