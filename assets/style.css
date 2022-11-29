@@ -1,15 +1,47 @@
+body{
+    
+    background-image:linear-gradient(#ccd5ae, #e9edc9);
+}
+
 #countdown{
     text-align: right;
+    color: red;
 }
+
+#highscore{
+    text-align: left;
+    color: purple;
+}
+
 
 h1{
     text-align: center;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-style: italic;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-style: bold;
+    font-size: 75px;
+    color: #d4a373;
 }
 
 p{
     text-align: center;
-    font-size: 100%;
+    font-size: 25px;
+    color: #d4a373;
 }
+
+button{
+    background-color: #faedcd;
+    color: #d4a373;
+    border-radius: 8px;
+    height: 50px;
+    width: 150px;
+    font-size: large;
+    font-weight: bold;
+}
+
+button:hover{
+    background-color: #ccd5ae;
+    color: white;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
 
