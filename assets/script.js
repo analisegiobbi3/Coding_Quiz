@@ -15,13 +15,11 @@ startGameButton.addEventListener("click", function(){
 });
 
 
-// going to need local storage to store and see the results of the quiz
-// localStorage.setItem ("key", item)
-// localStorage.getItem("key")
-
 highScore.addEventListener("click", function(){
-    //add function that takes you to high score display page
+    localStorage.setItem("score", score)
+    localStorage.getItem("key")
 })
+
 
 // Need to update this function to show something when the game ends/ the timer is out
 function gameOver() {
@@ -32,9 +30,7 @@ function gameOver() {
  }
 
 var i=0;
-var questions = 5;
 function quizQuestions() {
-    // for (i=0; i<questions.length; i++){
         //pulls the question promopt based on the index
         var Qs = quizQuestionObject[i].Prompt;
         //Sets the question title to be the prompt
@@ -43,7 +39,7 @@ function quizQuestions() {
         var choice2 = quizQuestionObject[i].Choices[1];
         var choice3 = quizQuestionObject[i].Choices[2];
         var choice4 = quizQuestionObject[i].Choices[3];
-        orderedListEl.innerHTML = '';
+        // orderedListEl.innerHTML = '';
               
           
         //Choice 1 Setup
@@ -93,20 +89,31 @@ function quizQuestions() {
         orderedListEl.appendChild(createListEl4);
         divEl.appendChild(orderedListEl);
                 
-                
-         //add event listener to allwo click for buttons
-         var clickAnswer = document.querySelectorAll(".answerButton")
-         clickAnswer.addEventListener("click", function(){
-        //if statement to handle answers?
-        })
- 
- 
-    // }
-}
+         //add event listener to allow click for buttons
+         var answerChoiceButton = document.getElementsByClassName("choiceButton")
+         answerChoiceButton.addEventListener("click", function(){
+            checkAnswer();
+        });
 
-function checkAnswer(){
- 
-}   
+};
+
+var score = 0
+function checkAnswer(event){
+    var questionAnswerIndex = quizQuestionObject[i].Answer;
+    if(event.target.textContent === questionAnswerIndex){
+        var correntAnswerEl = document.createAttribute("p");
+        correntAnswerEl.textContent("Correct");
+        correntAnswerEl.setAttribute("style", "color:green");
+        divEl.appendChild(correntAnswerEl);
+        score ++
+    }else{
+        var wrongAnswerEl = document.createAttribute("p");
+        wrongAnswerEl.textContent("Wrong");
+        wrongAnswerEl.setAttribute("style", "color:red");
+        divEl.appendChild(wrongAnswerEl);
+    }
+    i++
+};  
 
 
 var secondsLeft = 60;
