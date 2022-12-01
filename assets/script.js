@@ -1,25 +1,28 @@
-var startGameButton = document.getElementById("startButton")
+var startGameButton = document.querySelector("#startButton");
+var elementsToClear = document.querySelector(".starterElements")
+var button = document.querySelector("button");
 var countdownEl = document.getElementById("countdown");
 var headerEl = document.querySelector("header");
 var highScore = document.getElementById("highscore");
-var divEl = document.querySelector("div");
+var divEl = document.querySelector(".bodyDiv");
 var questionTitle = document.getElementById("question")
 var orderedListEl = document.getElementById("list")
 
 //variables that I want to create as a I go: answer list, question,
 
 
-startGameButton.addEventListener("click", function(){
-    setTimer();
-    quizQuestions();
+startGameButton.addEventListener("click", function(event){
+    if (event.target === startGameButton) {
+        elementsToClear.style.display = "none";
+        setTimer();
+        quizQuestions();
+    }
 });
-
 
 highScore.addEventListener("click", function(){
     localStorage.setItem("score", score)
-    localStorage.getItem("key")
+    localStorage.getItem("score")
 })
-
 
 // Need to update this function to show something when the game ends/ the timer is out
 function gameOver() {
@@ -28,6 +31,7 @@ function gameOver() {
     timesUp.textContent = "Game Over";
     headerEl.appendChild(timesUp);
  }
+//create function that clears out page
 
 var i=0;
 function quizQuestions() {
@@ -91,29 +95,45 @@ function quizQuestions() {
                 
          //add event listener to allow click for buttons
          var answerChoiceButton = document.getElementsByClassName("choiceButton")
-         answerChoiceButton.addEventListener("click", function(){
-            checkAnswer();
-        });
-
+         for (var j=0; j<answerChoiceButton.length; j++){
+            var button = answerChoiceButton[j]
+            button.addEventListener("click", checkAnswer);
+         }
 };
 
 var score = 0
 function checkAnswer(event){
     var questionAnswerIndex = quizQuestionObject[i].Answer;
     if(event.target.textContent === questionAnswerIndex){
-        var correntAnswerEl = document.createAttribute("p");
-        correntAnswerEl.textContent("Correct");
+        var correntAnswerEl = document.createElement("p");
+        correntAnswerEl.innerText="Correct";
         correntAnswerEl.setAttribute("style", "color:green");
         divEl.appendChild(correntAnswerEl);
         score ++
-    }else{
-        var wrongAnswerEl = document.createAttribute("p");
-        wrongAnswerEl.textContent("Wrong");
+        i++
+        //removeChild
+        divEl.removeChild(questionTitle)
+        divEl.removeChild(answerChoiceButton)
+    }else if(event.target.textContent !== questionAnswerIndex){
+        var wrongAnswerEl = document.createElement("p");
+        wrongAnswerEl.innerText="Wrong";
         wrongAnswerEl.setAttribute("style", "color:red");
         divEl.appendChild(wrongAnswerEl);
+        i++
+        divEl.removeChild(questionTitle)
+        divEl.removeChild(orderedListEl)
+    }else if(secondsLeft<=0){
+        clearInterval(timeCount);
+        divEl.style.display="none";
+        //add function that shows the final result of the test and allows user to enter name
     }
-    i++
+    quizQuestions();
 };  
+
+function quizFinalScore(){
+
+
+}
 
 
 var secondsLeft = 60;
