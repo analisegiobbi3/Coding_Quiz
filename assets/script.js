@@ -20,6 +20,7 @@ startGameButton.addEventListener("click", function(event){
 });
 
 highScore.addEventListener("click", function(){
+    //add if statment that says if there are not scores, show no score text
     localStorage.setItem("score", score)
     localStorage.getItem("score")
 })
@@ -34,11 +35,16 @@ function gameOver() {
 //create function that clears out page
 
 var i=0;
+var score = 0
 function quizQuestions() {
         //pulls the question promopt based on the index
         var Qs = quizQuestionObject[i].Prompt;
+        orderedListEl.innerHTML='';
+
+
         //Sets the question title to be the prompt
         questionTitle.textContent = Qs;
+
         var choice1 = quizQuestionObject[i].Choices[0];
         var choice2 = quizQuestionObject[i].Choices[1];
         var choice3 = quizQuestionObject[i].Choices[2];
@@ -92,6 +98,9 @@ function quizQuestions() {
         createListEl4.appendChild(button4El);
         orderedListEl.appendChild(createListEl4);
         divEl.appendChild(orderedListEl);
+        
+
+
                 
          //add event listener to allow click for buttons
          var answerChoiceButton = document.getElementsByClassName("choiceButton")
@@ -99,44 +108,50 @@ function quizQuestions() {
             var button = answerChoiceButton[j]
             button.addEventListener("click", checkAnswer);
          }
+
 };
 
-var score = 0
+
 function checkAnswer(event){
-    var questionAnswerIndex = quizQuestionObject[i].Answer;
-    if(event.target.textContent === questionAnswerIndex){
-        var correntAnswerEl = document.createElement("p");
-        correntAnswerEl.innerText="Correct";
-        correntAnswerEl.setAttribute("style", "color:green");
-        divEl.appendChild(correntAnswerEl);
-        score ++
-        i++
-        //removeChild
-        divEl.removeChild(questionTitle)
-        divEl.removeChild(answerChoiceButton)
-    }else if(event.target.textContent !== questionAnswerIndex){
-        var wrongAnswerEl = document.createElement("p");
-        wrongAnswerEl.innerText="Wrong";
-        wrongAnswerEl.setAttribute("style", "color:red");
-        divEl.appendChild(wrongAnswerEl);
-        i++
-        divEl.removeChild(questionTitle)
-        divEl.removeChild(orderedListEl)
-    }else if(secondsLeft<=0){
-        clearInterval(timeCount);
-        divEl.style.display="none";
-        //add function that shows the final result of the test and allows user to enter name
-    }
-    quizQuestions();
+    // while (i<5){
+        var questionAnswerIndex = quizQuestionObject[i].Answer;
+        if(event.target.textContent === questionAnswerIndex){
+            var correntAnswerEl = document.createElement("p");
+            correntAnswerEl.innerText="Correct";
+            correntAnswerEl.setAttribute("style", "color:green");
+            divEl.appendChild(correntAnswerEl);
+            score ++
+            i++
+        }else if(event.target.textContent !== questionAnswerIndex){
+            var wrongAnswerEl = document.createElement("p");
+            wrongAnswerEl.innerText="Wrong";
+            wrongAnswerEl.setAttribute("style", "color:red");
+            divEl.appendChild(wrongAnswerEl);
+            i++
+        }else if(secondsLeft<=0){
+            clearInterval(timeCount);
+            divEl.innerHTML='';
+            quizFinalScore()
+            //add function that shows the final result of the test and allows user to enter name
+        }
+        // correntAnswerEl.innerHTML='';
+        // wrongAnswerEl.innerHTML='';
+        quizQuestions();
+    // }
 };  
 
+
+
 function quizFinalScore(){
-
-
+    var finalScoreEl = document.createElement('p');
+    finalScoreEl.setAttribute("class", "final");
+    finalScoreEl.setAttribute("style", "color:#e0b1cb text-style:bold")
+    divEl.appendChild(finalScoreEl); 
+    finalScoreEl.textContent=" your score is " + score;
 }
 
 
-var secondsLeft = 60;
+var secondsLeft = 10;
 //Function to set the timer 
 function setTimer(){
     var timerInterval = setInterval(function() {
@@ -146,7 +161,9 @@ function setTimer(){
           // Stops execution of action at set interval
           clearInterval(timerInterval);
           // Shows the stop game image
+          divEl.innerHTML='';
           gameOver();
+          quizFinalScore()
         }
     
       }, 1000);
