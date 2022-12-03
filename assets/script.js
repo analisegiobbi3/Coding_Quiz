@@ -1,3 +1,4 @@
+//variables used in this script
 var startGameButton = document.querySelector("#startButton");
 var elementsToClear = document.querySelector(".starterElements")
 var button = document.querySelector("button");
@@ -7,10 +8,12 @@ var highScore = document.getElementById("highscore");
 var divEl = document.querySelector(".bodyDiv");
 var questionTitle = document.getElementById("question")
 var orderedListEl = document.getElementById("list")
+var resultEl = document.getElementById("result")
+var form = document.getElementById("score-form")
 
-//variables that I want to create as a I go: answer list, question,
-
-
+//event listener that allows the user to start the game
+//also clears the page of the start game button and text
+//finally calls the quest quiz function, which cylces through questions
 startGameButton.addEventListener("click", function(event){
     if (event.target === startGameButton) {
         elementsToClear.style.display = "none";
@@ -19,37 +22,28 @@ startGameButton.addEventListener("click", function(event){
     }
 });
 
-highScore.addEventListener("click", function(){
-    //add if statment that says if there are not scores, show no score text
-    localStorage.setItem("score", score)
-    localStorage.getItem("score")
-})
 
-// Need to update this function to show something when the game ends/ the timer is out
-function gameOver() {
-    countdownEl.textContent = " ";
-    var timesUp = document.createElement("p");
-    timesUp.textContent = "Game Over";
-    headerEl.appendChild(timesUp);
- }
-//create function that clears out page
-
+//quick question function uses and index to go through each question. 
 var i=0;
 var score = 0
+
 function quizQuestions() {
         //pulls the question promopt based on the index
         var Qs = quizQuestionObject[i].Prompt;
+        //clears out the previous question choices 
         orderedListEl.innerHTML='';
-
+        // correntAnswerEl.innerHTML='';
+        // wrongAnswerEl.innerHTML='';
 
         //Sets the question title to be the prompt
         questionTitle.textContent = Qs;
 
+
+        //sets each question choice to a variable
         var choice1 = quizQuestionObject[i].Choices[0];
         var choice2 = quizQuestionObject[i].Choices[1];
         var choice3 = quizQuestionObject[i].Choices[2];
         var choice4 = quizQuestionObject[i].Choices[3];
-        // orderedListEl.innerHTML = '';
               
           
         //Choice 1 Setup
@@ -101,8 +95,6 @@ function quizQuestions() {
         
 
 
-                
-         //add event listener to allow click for buttons
          var answerChoiceButton = document.getElementsByClassName("choiceButton")
          for (var j=0; j<answerChoiceButton.length; j++){
             var button = answerChoiceButton[j]
@@ -111,52 +103,110 @@ function quizQuestions() {
 
 };
 
-
+//function checks if the answer is correct but comparting target to the answer based on idex
 function checkAnswer(event){
-    // while (i<5){
+        //similar to the prompt index, this looks at the answer
         var questionAnswerIndex = quizQuestionObject[i].Answer;
+        //fin the answer is correct, a new element is created and we see the "correct" text
         if(event.target.textContent === questionAnswerIndex){
-            var correntAnswerEl = document.createElement("p");
-            correntAnswerEl.innerText="Correct";
-            correntAnswerEl.setAttribute("style", "color:green");
-            divEl.appendChild(correntAnswerEl);
+            var resultEl = document.getElementById("result");
+            resultEl.innerText="Correct";
+            resultEl.setAttribute("style", "color:green");
+            divEl.appendChild(resultEl);
+            secondsLeft = secondsLeft;
             score ++
             i++
         }else if(event.target.textContent !== questionAnswerIndex){
-            var wrongAnswerEl = document.createElement("p");
-            wrongAnswerEl.innerText="Wrong";
-            wrongAnswerEl.setAttribute("style", "color:red");
-            divEl.appendChild(wrongAnswerEl);
+            //if the answer is wrong, a new element is created and we see the "wrong" text
+            var resultEl = document.getElementById("result");
+            resultEl.innerText="Wrong";
+            resultEl.setAttribute("style", "color:red");
+            divEl.appendChild(resultEl);
+            secondsLeft = secondsLeft - 15;
             i++
-        }else if(secondsLeft<=0){
-            clearInterval(timeCount);
-            divEl.innerHTML='';
-            quizFinalScore()
-            //add function that shows the final result of the test and allows user to enter name
         }
-        // correntAnswerEl.innerHTML='';
-        // wrongAnswerEl.innerHTML='';
-        quizQuestions();
-    // }
+
+        // if (secondsLeft<=0){
+        //     divEl.innerHTML='';
+        //     clearInterval(secondsLeft);
+        //     quizFinalScore();
+        // }
+
+        if (i<quizQuestionObject.length){
+            quizQuestions(); 
+        }else{
+            divEl.innerHTML='';
+            quizFinalScore();
+            buildInput();
+        }
 };  
 
 
+// highScore.addEventListener("click", highScorePage)
 
-function quizFinalScore(){
-    var finalScoreEl = document.createElement('p');
-    finalScoreEl.setAttribute("class", "final");
-    finalScoreEl.setAttribute("style", "color:#e0b1cb text-style:bold")
-    divEl.appendChild(finalScoreEl); 
-    finalScoreEl.textContent=" your score is " + score;
+function highScorePage(){
+    divEl.innerHTML='';
+    var yourScore = localStorage.getItem("score");
+    var yourTime = localStorage.getItem("time")
+    var yourInitials = localStorage.getItem("initials");
+    var resultsPage = document.querySelector('highScorePage') 
+    resultsPage.textContent = yourInitials + " : " + yourScore
+
+}
+
+function buildInput(){
+    var input = document.createElement('input');
+    var createSubmitButton = document.createElement('button');
+    createSubmitButton.innerHTML="Submit"
+    createSubmitButton.setAttribute("id", "submit")
+    form.appendChild(input);
+    form.appendChild(createSubmitButton);
+    var submitButton=document.getElementById("submit")
+    submitButton.addEventListener("submit", submitScore)
 }
 
 
-var secondsLeft = 10;
-//Function to set the timer 
+
+function submitScore(event){
+    event.preventDefault();
+    var initialsInput = document.getElementById("initialsInput").value;
+    localStorage.setItem("initials", initialsInput);
+    localStorage.setItem("score", score);
+    localStorage.setItem("time", secondsLeft);
+    highScorePage(); 
+}
+
+
+
+
+//Function handles grabbing the final score
+//Function also shows the input, which will allow the user to input their name to store their score
+function quizFinalScore(){
+    var finalScoreEl = document.createElement('p');
+    finalScoreEl.setAttribute("class", "final");
+    divEl.appendChild(finalScoreEl); 
+    finalScoreEl.textContent=" your score is " + score + " and your final time is " + secondsLeft;
+    // resultEl.textContent = "Submit your initals and save your score:"
+}
+
+// little function to show text that says gameover. Might be able to combine this with  final score
+function gameOver() {
+    countdownEl.textContent = " ";
+    var timesUp = document.createElement("p");
+    timesUp.textContent = "Game Over";
+    headerEl.appendChild(timesUp);
+ }
+
+//Function handles the timer
+//when the timer hits 0, time clears and the final score appears
+var secondsLeft = 40;
 function setTimer(){
     var timerInterval = setInterval(function() {
         secondsLeft--;
         countdownEl.textContent = "Countdown: " + secondsLeft;
+        if (!secondsLeft > 0) {
+            secondsLeft = 0;
+        }
         if(secondsLeft === 0) {
           // Stops execution of action at set interval
           clearInterval(timerInterval);
@@ -168,8 +218,6 @@ function setTimer(){
     
       }, 1000);
 };
-
-
 
 
 //  Quiz Quesiton Objects
