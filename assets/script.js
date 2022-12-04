@@ -147,8 +147,15 @@ function highScorePage(){
     var yourTime = localStorage.getItem("time")
     var yourInitials = localStorage.getItem("initials");
     var resultsPage = document.getElementById('highScorePage') 
-    resultsPage.textContent = yourInitials + " : " + yourScore + " : " + yourTime
+    resultsPage.textContent = yourInitials + " : " + yourScore + " Questions Correct. " + "You finished the quiz with " + yourTime + " seconds left"
+    var scoreList = document.createElement("ol")
+    var createScoreList = document.createElement("li")
+    resultsPage.appendChild(scoreList)
+    scoreList.appendChild(createScoreList)
+    createScoreList.textContent = yourInitials + " : " + yourScore + " : " + yourTime;
 }
+
+
 
 function buildInput(){
     var input = document.createElement('input');
