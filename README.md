@@ -39,6 +39,5 @@ The following image shows the web application's appearance and functionality:
 
 ![Finally, the user is taken to a final landing page that displays their quiz results](./assets/highScorePage.png)
 
-
 ## Link
 

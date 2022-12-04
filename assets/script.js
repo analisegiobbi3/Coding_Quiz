@@ -1,27 +1,27 @@
 //variables used in this script
-var startGameButton = document.querySelector("#startButton");
-var elementsToClear = document.querySelector(".starterElements")
-var button = document.querySelector("button");
-var countdownEl = document.getElementById("countdown");
-var headerEl = document.querySelector("header");
-var highScoreEl = document.getElementById("highScorePage");
-var divEl = document.querySelector(".bodyDiv");
-var questionTitle = document.getElementById("question");
-var orderedListEl = document.getElementById("list");
-var resultEl = document.getElementById("result");
-var form = document.getElementById("score-form");
-var divButtonEl = document.getElementById("buttomEl");
+var startGameButton = document.querySelector('#startButton');
+var elementsToClear = document.querySelector('.starterElements');
+var button = document.querySelector('button');
+var countdownEl = document.getElementById('countdown');
+var headerEl = document.querySelector('header');
+var highScoreEl = document.getElementById('highScorePage');
+var divEl = document.querySelector('.bodyDiv');
+var questionTitle = document.getElementById('question');
+var orderedListEl = document.getElementById('list');
+var resultEl = document.getElementById('result');
+var form = document.getElementById('score-form');
+var divButtonEl = document.getElementById('buttomEl');
 var gohomeEl = document.getElementById('goBack');
-var clearScoreEl = document.getElementById('clearScore')
+var clearScoreEl = document.getElementById('clearScore');
 
 
 
 //event listener that allows the user to start the game
 //also clears the page of the start game button and text
 //finally calls the quest quiz function, which cylces through questions
-startGameButton.addEventListener("click", function(event){
+startGameButton.addEventListener('click', function(event){
     if (event.target === startGameButton) {
-        elementsToClear.style.display = "none";
+        elementsToClear.style.display = 'none';
         setTimer();
         quizQuestions();
     }
@@ -30,15 +30,13 @@ startGameButton.addEventListener("click", function(event){
 
 //quick question function uses and index to go through each question. 
 var i=0;
-var score = 0
+var score=0;
 
 function quizQuestions() {
         //pulls the question promopt based on the index
         var Qs = quizQuestionObject[i].Prompt;
         //clears out the previous question choices 
         orderedListEl.innerHTML='';
-        // correntAnswerEl.innerHTML='';
-        // wrongAnswerEl.innerHTML='';
 
         //Sets the question title to be the prompt
         questionTitle.textContent = Qs;
@@ -52,11 +50,11 @@ function quizQuestions() {
               
           
         //Choice 1 Setup
-        var createListEl1 = document.createElement("li")
-        var button1El = document.createElement("button");
+        var createListEl1 = document.createElement('li');
+        var button1El = document.createElement('button');
         //creating classes for my choice buttons
-        createListEl1.setAttribute("class", "listElement")
-        button1El.setAttribute("class", "choiceButton");
+        createListEl1.setAttribute('class', 'listElement');
+        button1El.setAttribute('class', 'choiceButton');
         //adds the text for choice one to the button
         button1El.textContent = choice1;
         createListEl1.appendChild(button1El);
@@ -67,31 +65,31 @@ function quizQuestions() {
         divEl.appendChild(orderedListEl);
                 
         //Choice 2 Setup
-        var createListEl2 = document.createElement("li")
-        var button2El = document.createElement("button");
-        createListEl2.setAttribute("class", "listElement")
-        button2El.setAttribute("class", "choiceButton");
+        var createListEl2 = document.createElement('li');
+        var button2El = document.createElement('button');
+        createListEl2.setAttribute('class', 'listElement');
+        button2El.setAttribute('class', 'choiceButton');
         button2El.textContent = choice2;
         createListEl2.appendChild(button2El);
-        orderedListEl.appendChild(createListEl2)
+        orderedListEl.appendChild(createListEl2);
         divEl.appendChild(orderedListEl);
                 
                 
          //Choice 3 Setup
-        var createListEl3 = document.createElement("li")
-        var button3El = document.createElement("button");
-        createListEl3.setAttribute("class", "listElement")
-        button3El.setAttribute("class", "choiceButton");
+        var createListEl3 = document.createElement('li');
+        var button3El = document.createElement('button');
+        createListEl3.setAttribute('class', 'listElement');
+        button3El.setAttribute('class', 'choiceButton');
         button3El.textContent = choice3;
         createListEl3.appendChild(button3El);
         orderedListEl.appendChild(createListEl3);
         divEl.appendChild(orderedListEl);
             
         //Choice 4 Setup
-        var createListEl4 = document.createElement("li")
-        var button4El = document.createElement("button");
-        createListEl4.setAttribute("class", "listElement")
-        button4El.setAttribute("class", "choiceButton");
+        var createListEl4 = document.createElement('li');
+        var button4El = document.createElement('button');
+        createListEl4.setAttribute('class', 'listElement');
+        button4El.setAttribute('class', 'choiceButton');
         button4El.textContent = choice4;
         createListEl4.appendChild(button4El);
         createListEl4.appendChild(button4El);
@@ -100,10 +98,10 @@ function quizQuestions() {
         
 
 
-         var answerChoiceButton = document.getElementsByClassName("choiceButton")
+         var answerChoiceButton = document.getElementsByClassName('choiceButton');
          for (var j=0; j<answerChoiceButton.length; j++){
-            var button = answerChoiceButton[j]
-            button.addEventListener("click", checkAnswer);
+            var button = answerChoiceButton[j];
+            button.addEventListener('click', checkAnswer);
          }
 
 };
@@ -114,18 +112,18 @@ function checkAnswer(event){
         var questionAnswerIndex = quizQuestionObject[i].Answer;
         //fin the answer is correct, a new element is created and we see the "correct" text
         if(event.target.textContent === questionAnswerIndex){
-            var resultEl = document.getElementById("result");
-            resultEl.innerText="Correct";
-            resultEl.setAttribute("style", "color:green");
+            var resultEl = document.getElementById('result');
+            resultEl.innerText='Correct';
+            resultEl.setAttribute('style', 'color:green');
             divEl.appendChild(resultEl);
             secondsLeft = secondsLeft;
             score ++
             i++
         }else if(event.target.textContent !== questionAnswerIndex){
             //if the answer is wrong, a new element is created and we see the "wrong" text
-            var resultEl = document.getElementById("result");
-            resultEl.innerText="Wrong";
-            resultEl.setAttribute("style", "color:red");
+            var resultEl = document.getElementById('result');
+            resultEl.innerText='Wrong';
+            resultEl.setAttribute('style', 'color:red');
             divEl.appendChild(resultEl);
             secondsLeft = secondsLeft - 15;
             i++
@@ -136,7 +134,7 @@ function checkAnswer(event){
             quizQuestions(); 
         }else{
             divEl.innerHTML='';
-            clearInterval(timerInterval)
+            clearInterval(timerInterval);
             quizFinalScore();
             buildInput();
         }
@@ -146,24 +144,24 @@ function checkAnswer(event){
 function buildInput(){
     var input = document.createElement('input');
     var createSubmitButton = document.createElement('button');
-    createSubmitButton.innerHTML="Submit"
-    createSubmitButton.setAttribute("id", "submit")
-    input.setAttribute("id", "initialsInput")
-    form.textContent="Enter your Initials"
-    form.setAttribute("style", "color: #e0b1cb;  padding: 5px")
+    createSubmitButton.innerHTML='Submit';
+    createSubmitButton.setAttribute('id', 'submit');
+    input.setAttribute('id', 'initialsInput');
+    form.textContent='Enter your Initials';
+    form.setAttribute('style', 'color: #e0b1cb;  padding: 5px');
     form.appendChild(input);
     form.appendChild(createSubmitButton);
-    var submitButton=document.getElementById("submit")
+    var submitButton=document.getElementById('submit');
     // submitButton.addEventListener("submit", submitScore)
     submitButton.onclick = function (event){
-        if (document.getElementById("initialsInput").value.length === 0){
+        if (document.getElementById('initialsInput').value.length === 0){
             return;
         }
         event.preventDefault();
-        var initialsInput = document.getElementById("initialsInput").value;
-        localStorage.setItem("initials", initialsInput);
-        localStorage.setItem("score", score);
-        localStorage.setItem("time", secondsLeft);
+        var initialsInput = document.getElementById('initialsInput').value;
+        localStorage.setItem('initials', initialsInput);
+        localStorage.setItem('score', score);
+        localStorage.setItem('time', secondsLeft);
         highScorePage(); 
     }
 }
@@ -174,22 +172,22 @@ function highScorePage(){
     // goBackBtn.style.visibility = "visible";
     // clearScoreBtn.style.visibility = "visible";
     divEl.innerHTML = '';
-    form.style.display = "none";
-    var yourScore = localStorage.getItem("score");
-    var yourTime = localStorage.getItem("time")
-    var yourInitials = localStorage.getItem("initials");
-    var resultsPage = document.getElementById('highScorePage') 
-    var scoreList = document.createElement("ol")
-    var createScoreList = document.createElement("li")
-    createScoreList.setAttribute("class", "scoreListClass")
-    resultsPage.appendChild(scoreList)
-    scoreList.appendChild(createScoreList)
+    form.style.display = 'none';
+    var yourScore = localStorage.getItem('score');
+    var yourTime = localStorage.getItem('time')
+    var yourInitials = localStorage.getItem('initials');
+    var resultsPage = document.getElementById('highScorePage');
+    var scoreList = document.createElement('ol');
+    var createScoreList = document.createElement('li');
+    createScoreList.setAttribute('class', 'scoreListClass');
+    resultsPage.appendChild(scoreList);
+    scoreList.appendChild(createScoreList);
     createScoreList.textContent = yourInitials + ": Score: " + yourScore + " Time:  " + yourTime;
 
     //create the end option buttons
     buttomEl.style.visibility='visible';
-    gohomeEl.addEventListener("click", goBacktoHome)
-    clearScoreEl.addEventListener("click", selfDestruct)
+    gohomeEl.addEventListener('click', goBacktoHome);
+    clearScoreEl.addEventListener("click", selfDestruct);
 }
 
 function goBacktoHome(){
@@ -209,7 +207,7 @@ clearScoreEl.onclick = selfDestruct;
 //Function also shows the input, which will allow the user to input their name to store their score
 function quizFinalScore(){
     var finalScoreEl = document.createElement('p');
-    finalScoreEl.setAttribute("class", "final");
+    finalScoreEl.setAttribute('class', 'final');
     divEl.appendChild(finalScoreEl); 
     finalScoreEl.textContent=" your score is " + score + " and your final time is " + secondsLeft;
 }
@@ -232,8 +230,8 @@ function setTimer(){
           clearInterval(timerInterval);
           divEl.innerHTML='';
           buttomEl.style.visibility='visible';
-          gohomeEl.addEventListener("click", goBacktoHome)
-          quizFinalScore()
+          gohomeEl.addEventListener('click', goBacktoHome);
+          quizFinalScore();
         }
     
       }, 1000);
@@ -269,4 +267,4 @@ var quizQuestionObject = [
         "getElementsByTagName(‘tagname’)", "querySelectorAll()"],
         Answer: "querySelectorAll()",
     },
-]
+];
