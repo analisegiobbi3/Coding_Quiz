@@ -126,16 +126,12 @@ function checkAnswer(event){
             i++
         }
 
-        // if (secondsLeft<=0){
-        //     divEl.innerHTML='';
-        //     clearInterval(secondsLeft);
-        //     quizFinalScore();
-        // }
 
         if (i<quizQuestionObject.length){
             quizQuestions(); 
         }else{
             divEl.innerHTML='';
+            clearInterval(timerInterval)
             quizFinalScore();
             buildInput();
         }
@@ -145,13 +141,13 @@ function checkAnswer(event){
 // highScore.addEventListener("click", highScorePage)
 
 function highScorePage(){
-    divEl.innerHTML='';
+    divEl.innerHTML = '';
+    form.style.display = "none";
     var yourScore = localStorage.getItem("score");
     var yourTime = localStorage.getItem("time")
     var yourInitials = localStorage.getItem("initials");
-    var resultsPage = document.querySelector('highScorePage') 
-    resultsPage.textContent = yourInitials + " : " + yourScore
-
+    var resultsPage = document.getElementById('highScorePage') 
+    resultsPage.textContent = yourInitials + " : " + yourScore + " : " + yourTime
 }
 
 function buildInput(){
@@ -159,23 +155,26 @@ function buildInput(){
     var createSubmitButton = document.createElement('button');
     createSubmitButton.innerHTML="Submit"
     createSubmitButton.setAttribute("id", "submit")
+    input.setAttribute("id", "initialsInput")
+    form.textContent="Enter your Initials"
+    form.setAttribute("style", "color: #e0b1cb;  padding: 5px")
     form.appendChild(input);
     form.appendChild(createSubmitButton);
     var submitButton=document.getElementById("submit")
-    submitButton.addEventListener("submit", submitScore)
+    // submitButton.addEventListener("submit", submitScore)
+    submitButton.onclick = function (event){
+        if (document.getElementById("initialsInput").value.length === 0){
+            
+        }
+        event.preventDefault();
+        var initialsInput = document.getElementById("initialsInput").value;
+        localStorage.setItem("initials", initialsInput);
+        localStorage.setItem("score", score);
+        localStorage.setItem("time", secondsLeft);
+        highScorePage(); 
+
+    }
 }
-
-
-
-function submitScore(event){
-    event.preventDefault();
-    var initialsInput = document.getElementById("initialsInput").value;
-    localStorage.setItem("initials", initialsInput);
-    localStorage.setItem("score", score);
-    localStorage.setItem("time", secondsLeft);
-    highScorePage(); 
-}
-
 
 
 
@@ -200,14 +199,15 @@ function gameOver() {
 //Function handles the timer
 //when the timer hits 0, time clears and the final score appears
 var secondsLeft = 40;
+var timerInterval;
 function setTimer(){
-    var timerInterval = setInterval(function() {
+    timerInterval = setInterval(function() {
         secondsLeft--;
         countdownEl.textContent = "Countdown: " + secondsLeft;
         if (!secondsLeft > 0) {
             secondsLeft = 0;
         }
-        if(secondsLeft === 0) {
+        if(secondsLeft <= 0) {
           // Stops execution of action at set interval
           clearInterval(timerInterval);
           // Shows the stop game image
