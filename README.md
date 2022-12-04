@@ -33,5 +33,12 @@ The following image shows the web application's appearance and functionality:
 
 ![The user is introduced to the quiz through this page and can start the quiz by clicking the button.](./assets/openingImage.png)
 
+![The user enters the quiz once tapping start and can click answers to test their coding knowledge](./assets/quizImage.png)
+
+![When the quiz is finished before the time is up, the user can enter their initals to save their score](./assets/enterResults.png)
+
+![Finally, the user is taken to a final landing page that displays their quiz results](./assets/highScorePage.png)
+
+
 ## Link
 

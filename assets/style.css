@@ -3,13 +3,17 @@ body{
 }
 
 #countdown{
-    text-align: right;
-    color: red;
+    text-align: left;
+    color: #f2e9e4;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 25px;
 }
 
 #highscore{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     text-align: left;
-    color: purple;
+    color: #e0b1cb;
+    font-size: 25px;
 }
 
 
@@ -91,11 +95,22 @@ form{
     size: 50;
 }
 
+ol{
+    list-style-type: none;
+}
+
 #highScorePage{
     color:#e0b1cb;
     font-weight: bold;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: 60px;
     text-align: center;
+}
+
+#buttomEl{
+    text-align: center;
+    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 

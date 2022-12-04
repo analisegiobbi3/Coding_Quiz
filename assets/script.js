@@ -31,8 +31,6 @@ startGameButton.addEventListener("click", function(event){
 //quick question function uses and index to go through each question. 
 var i=0;
 var score = 0
-// goBackBtn.style.visibility = "hidden";
-// clearScoreBtn.style.visibility = "hidden";
 
 function quizQuestions() {
         //pulls the question promopt based on the index
@@ -199,8 +197,11 @@ function goBacktoHome(){
 }
 
 function selfDestruct(){
-    createScoreList.value = '';
+    highScoreEl.value = '';
 }
+
+highScoreEl.onclick = highScorePage;
+clearScoreEl.onclick = selfDestruct;
 
 
 
@@ -230,6 +231,8 @@ function setTimer(){
           // Stops execution of action at set interval
           clearInterval(timerInterval);
           divEl.innerHTML='';
+          buttomEl.style.visibility='visible';
+          gohomeEl.addEventListener("click", goBacktoHome)
           quizFinalScore()
         }
     
