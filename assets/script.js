@@ -4,12 +4,17 @@ var elementsToClear = document.querySelector(".starterElements")
 var button = document.querySelector("button");
 var countdownEl = document.getElementById("countdown");
 var headerEl = document.querySelector("header");
-var highScore = document.getElementById("highscore");
+var highScoreEl = document.getElementById("highScorePage");
 var divEl = document.querySelector(".bodyDiv");
-var questionTitle = document.getElementById("question")
-var orderedListEl = document.getElementById("list")
-var resultEl = document.getElementById("result")
-var form = document.getElementById("score-form")
+var questionTitle = document.getElementById("question");
+var orderedListEl = document.getElementById("list");
+var resultEl = document.getElementById("result");
+var form = document.getElementById("score-form");
+var divButtonEl = document.getElementById("buttomEl");
+var gohomeEl = document.getElementById('goBack');
+var clearScoreEl = document.getElementById('clearScore')
+
+
 
 //event listener that allows the user to start the game
 //also clears the page of the start game button and text
@@ -26,6 +31,8 @@ startGameButton.addEventListener("click", function(event){
 //quick question function uses and index to go through each question. 
 var i=0;
 var score = 0
+// goBackBtn.style.visibility = "hidden";
+// clearScoreBtn.style.visibility = "hidden";
 
 function quizQuestions() {
         //pulls the question promopt based on the index
@@ -138,25 +145,6 @@ function checkAnswer(event){
 };  
 
 
-// highScore.addEventListener("click", highScorePage)
-
-function highScorePage(){
-    divEl.innerHTML = '';
-    form.style.display = "none";
-    var yourScore = localStorage.getItem("score");
-    var yourTime = localStorage.getItem("time")
-    var yourInitials = localStorage.getItem("initials");
-    var resultsPage = document.getElementById('highScorePage') 
-    resultsPage.textContent = yourInitials + " : " + yourScore + " Questions Correct. " + "You finished the quiz with " + yourTime + " seconds left"
-    var scoreList = document.createElement("ol")
-    var createScoreList = document.createElement("li")
-    resultsPage.appendChild(scoreList)
-    scoreList.appendChild(createScoreList)
-    createScoreList.textContent = yourInitials + " : " + yourScore + " : " + yourTime;
-}
-
-
-
 function buildInput(){
     var input = document.createElement('input');
     var createSubmitButton = document.createElement('button');
@@ -171,7 +159,7 @@ function buildInput(){
     // submitButton.addEventListener("submit", submitScore)
     submitButton.onclick = function (event){
         if (document.getElementById("initialsInput").value.length === 0){
-            
+            return;
         }
         event.preventDefault();
         var initialsInput = document.getElementById("initialsInput").value;
@@ -179,8 +167,39 @@ function buildInput(){
         localStorage.setItem("score", score);
         localStorage.setItem("time", secondsLeft);
         highScorePage(); 
-
     }
+}
+
+
+
+function highScorePage(){
+    // goBackBtn.style.visibility = "visible";
+    // clearScoreBtn.style.visibility = "visible";
+    divEl.innerHTML = '';
+    form.style.display = "none";
+    var yourScore = localStorage.getItem("score");
+    var yourTime = localStorage.getItem("time")
+    var yourInitials = localStorage.getItem("initials");
+    var resultsPage = document.getElementById('highScorePage') 
+    var scoreList = document.createElement("ol")
+    var createScoreList = document.createElement("li")
+    createScoreList.setAttribute("class", "scoreListClass")
+    resultsPage.appendChild(scoreList)
+    scoreList.appendChild(createScoreList)
+    createScoreList.textContent = yourInitials + ": Score: " + yourScore + " Time:  " + yourTime;
+
+    //create the end option buttons
+    buttomEl.style.visibility='visible';
+    gohomeEl.addEventListener("click", goBacktoHome)
+    clearScoreEl.addEventListener("click", selfDestruct)
+}
+
+function goBacktoHome(){
+    location.reload();
+}
+
+function selfDestruct(){
+    createScoreList.value = '';
 }
 
 
@@ -192,16 +211,9 @@ function quizFinalScore(){
     finalScoreEl.setAttribute("class", "final");
     divEl.appendChild(finalScoreEl); 
     finalScoreEl.textContent=" your score is " + score + " and your final time is " + secondsLeft;
-    // resultEl.textContent = "Submit your initals and save your score:"
 }
 
-// little function to show text that says gameover. Might be able to combine this with  final score
-function gameOver() {
-    countdownEl.textContent = " ";
-    var timesUp = document.createElement("p");
-    timesUp.textContent = "Game Over";
-    headerEl.appendChild(timesUp);
- }
+
 
 //Function handles the timer
 //when the timer hits 0, time clears and the final score appears
@@ -217,9 +229,7 @@ function setTimer(){
         if(secondsLeft <= 0) {
           // Stops execution of action at set interval
           clearInterval(timerInterval);
-          // Shows the stop game image
           divEl.innerHTML='';
-          gameOver();
           quizFinalScore()
         }
     
