@@ -31,7 +31,7 @@ THEN I can save my initials and score
 
 The following image shows the web application's appearance and functionality:
 
-![The user is introduced to the quiz through this page and can start the quiz by clicking the button.](./assets/Screen%20Shot%202022-12-04%20at%201.19.49%20PM.png)
+![The user is introduced to the quiz through this page and can start the quiz by clicking the button.](./assets/openingImage.png)
 
 ## Link
 
