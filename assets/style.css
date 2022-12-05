@@ -114,3 +114,15 @@ ol{
     padding-right: 10px;
 }
 
+.scoreListItemEl{
+    color:#e0b1cb;
+    font-weight: bold;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 60px;
+    text-align: center;
+}
+
+#goBackHighScore{
+    text-align: center;
+}
+

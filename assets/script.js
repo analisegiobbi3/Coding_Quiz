@@ -1,6 +1,7 @@
 //variables used in this script
 var startGameButton = document.querySelector('#startButton');
 var elementsToClear = document.querySelector('.starterElements');
+var clickForHighScores = document.getElementById('highscore');
 var button = document.querySelector('button');
 var countdownEl = document.getElementById('countdown');
 var headerEl = document.querySelector('header');
@@ -13,6 +14,9 @@ var form = document.getElementById('score-form');
 var divButtonEl = document.getElementById('buttomEl');
 var gohomeEl = document.getElementById('goBack');
 var clearScoreEl = document.getElementById('clearScore');
+var listOfScoreEl = document.getElementById('listOfScores')
+var showScoreEl = document.getElementById('showScores')
+var goBackHighScoreEl = document.getElementById('goBackHighScore')
 
 
 
@@ -28,7 +32,8 @@ startGameButton.addEventListener('click', function(event){
 });
 
 
-//quick question function uses and index to go through each question. 
+//index variable for the quiz questions
+// score varialbe to hold how many quests are answered correctly
 var i=0;
 var score=0;
 
@@ -97,7 +102,7 @@ function quizQuestions() {
         divEl.appendChild(orderedListEl);
         
 
-
+        //grabs each answer button and allows grabs the text to compare to the actual answer
          var answerChoiceButton = document.getElementsByClassName('choiceButton');
          for (var j=0; j<answerChoiceButton.length; j++){
             var button = answerChoiceButton[j];
@@ -110,12 +115,13 @@ function quizQuestions() {
 function checkAnswer(event){
         //similar to the prompt index, this looks at the answer
         var questionAnswerIndex = quizQuestionObject[i].Answer;
-        //fin the answer is correct, a new element is created and we see the "correct" text
+        //if the answer is correct, a new element is created and we see the "correct" text
         if(event.target.textContent === questionAnswerIndex){
             var resultEl = document.getElementById('result');
             resultEl.innerText='Correct';
-            resultEl.setAttribute('style', 'color:green');
+            resultEl.setAttribute('style', 'color:#a7c957');
             divEl.appendChild(resultEl);
+            //if answer is correct, we keep the timer as is and add to the score
             secondsLeft = secondsLeft;
             score ++
             i++
@@ -123,13 +129,14 @@ function checkAnswer(event){
             //if the answer is wrong, a new element is created and we see the "wrong" text
             var resultEl = document.getElementById('result');
             resultEl.innerText='Wrong';
-            resultEl.setAttribute('style', 'color:red');
+            resultEl.setAttribute('style', 'color:#bc4749');
             divEl.appendChild(resultEl);
+            //if the answer is wrong, subtract 15 seconds
             secondsLeft = secondsLeft - 15;
             i++
         }
 
-
+        //conditional statement to check if we still have questions or if we have finished the quiz
         if (i<quizQuestionObject.length){
             quizQuestions(); 
         }else{
@@ -140,7 +147,7 @@ function checkAnswer(event){
         }
 };  
 
-
+//function to build the input field and allow the user to enter their initals and save their score
 function buildInput(){
     var input = document.createElement('input');
     var createSubmitButton = document.createElement('button');
@@ -166,15 +173,18 @@ function buildInput(){
     }
 }
 
+//stores scores in an array to later pull into the high score page
+var highScoreStorage = [];
+var storedTime = localStorage.getItem('time');
+var storedInitials = localStorage.getItem('initials');
 
 
+//function to get the stores scores and display them after initials are submited
 function highScorePage(){
-    // goBackBtn.style.visibility = "visible";
-    // clearScoreBtn.style.visibility = "visible";
     divEl.innerHTML = '';
     form.style.display = 'none';
     var yourScore = localStorage.getItem('score');
-    var yourTime = localStorage.getItem('time')
+    var yourTime = localStorage.getItem('time');
     var yourInitials = localStorage.getItem('initials');
     var resultsPage = document.getElementById('highScorePage');
     var scoreList = document.createElement('ol');
@@ -185,22 +195,39 @@ function highScorePage(){
     createScoreList.textContent = yourInitials + ": Score: " + yourScore + " Time:  " + yourTime;
 
     //create the end option buttons
-    buttomEl.style.visibility='visible';
+    divButtonEl.style.visibility='visible';
     gohomeEl.addEventListener('click', goBacktoHome);
     clearScoreEl.addEventListener("click", selfDestruct);
 }
 
+//function reload the first page and restart the quiz
 function goBacktoHome(){
     location.reload();
 }
 
+//function to clear scores
 function selfDestruct(){
     highScoreEl.value = '';
+    location.reload();
 }
 
-highScoreEl.onclick = highScorePage;
+clickForHighScores.onclick = storedScores;
 clearScoreEl.onclick = selfDestruct;
 
+//pulls up stored scores in the high score page
+function storedScores(){
+    highScoreStorage.push(storedInitials + " : " + storedTime);
+    elementsToClear.style.display = 'none';    
+    for (var i=0; i<highScoreStorage.length; i++){
+        var scoreListItem = document.createElement('li');
+        scoreListItem.setAttribute('class', 'scoreListItemEl')
+        scoreListItem.textContent = highScoreStorage[i];
+        showScoreEl.appendChild(scoreListItem);
+    }
+
+    goBackHighScoreEl.style.visibility='visible';
+    goBackHighScoreEl.addEventListener('click', goBacktoHome);
+}
 
 
 //Function handles grabbing the final score
@@ -216,7 +243,7 @@ function quizFinalScore(){
 
 //Function handles the timer
 //when the timer hits 0, time clears and the final score appears
-var secondsLeft = 40;
+var secondsLeft = 70;
 var timerInterval;
 function setTimer(){
     timerInterval = setInterval(function() {
